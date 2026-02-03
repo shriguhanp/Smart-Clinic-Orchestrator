@@ -1,0 +1,9 @@
+
+{
+  "name": "PriorCare",
+  "description": "An AI-powered smart appointment scheduling platform that prioritizes patients based on symptom severity, age, and chronic conditions to ensure faster healthcare for those who need it most.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
