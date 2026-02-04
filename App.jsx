@@ -2,11 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import { 
   UserRole, 
-  User, 
-  Appointment, 
   AppointmentStatus, 
-  RiskCategory, 
-  ClinicConfig 
+  RiskCategory 
 } from './types';
 import LandingPage from './pages/LandingPage';
 import LoginPage from './pages/LoginPage';
@@ -14,11 +11,11 @@ import DoctorDashboard from './pages/DoctorDashboard';
 import PatientDashboard from './pages/PatientDashboard';
 import { analyzeSymptoms } from './services/geminiService';
 
-const App: React.FC = () => {
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
-  const [view, setView] = useState<'LANDING' | 'LOGIN' | 'DASHBOARD'>('LANDING');
-  const [appointments, setAppointments] = useState<Appointment[]>([]);
-  const [clinicConfig, setClinicConfig] = useState<ClinicConfig>({
+const App = () => {
+  const [currentUser, setCurrentUser] = useState(null);
+  const [view, setView] = useState('LANDING');
+  const [appointments, setAppointments] = useState([]);
+  const [clinicConfig, setClinicConfig] = useState({
     location: "Main Street Medical Center",
     specialization: "General Medicine & Cardiology",
     openingTime: "08:00",
@@ -59,7 +56,7 @@ const App: React.FC = () => {
           aiReasoning: 'Age and chronic condition combined with chest pain indicates cardiac risk.'
         }
       ];
-      setAppointments(initial as Appointment[]);
+      setAppointments(initial);
       localStorage.setItem('priorcare_appointments', JSON.stringify(initial));
     }
   }, []);
@@ -68,7 +65,7 @@ const App: React.FC = () => {
     localStorage.setItem('priorcare_appointments', JSON.stringify(appointments));
   }, [appointments]);
 
-  const handleLogin = (user: User) => {
+  const handleLogin = (user) => {
     setCurrentUser(user);
     localStorage.setItem('priorcare_user', JSON.stringify(user));
     setView('DASHBOARD');
@@ -80,14 +77,14 @@ const App: React.FC = () => {
     setView('LANDING');
   };
 
-  const addAppointment = async (data: Partial<Appointment>) => {
+  const addAppointment = async (data) => {
     const analysis = await analyzeSymptoms(
       data.symptoms || '', 
       data.patientAge || 30, 
       data.chronicConditions || []
     );
 
-    const newAppointment: Appointment = {
+    const newAppointment = {
       id: Math.random().toString(36).substr(2, 9),
       patientId: currentUser?.id || 'guest',
       patientName: currentUser?.name || 'Guest Patient',
@@ -107,11 +104,11 @@ const App: React.FC = () => {
     setAppointments(prev => [...prev, newAppointment]);
   };
 
-  const updateAppointmentStatus = (id: string, status: AppointmentStatus) => {
+  const updateAppointmentStatus = (id, status) => {
     setAppointments(prev => prev.map(app => app.id === id ? { ...app, status } : app));
   };
 
-  const reorderQueue = (newOrder: Appointment[]) => {
+  const reorderQueue = (newOrder) => {
     setAppointments(newOrder);
   };
 

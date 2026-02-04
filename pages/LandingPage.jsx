@@ -2,12 +2,7 @@
 import React from 'react';
 import { COLORS } from '../constants';
 
-interface LandingPageProps {
-  onStartPatient: () => void;
-  onStartDoctor: () => void;
-}
-
-const LandingPage: React.FC<LandingPageProps> = ({ onStartPatient, onStartDoctor }) => {
+const LandingPage = ({ onStartPatient, onStartDoctor }) => {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Navigation */}

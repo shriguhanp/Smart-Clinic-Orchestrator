@@ -1,38 +1,31 @@
 
 import React, { useState } from 'react';
-import { Appointment, RiskCategory, AppointmentStatus, User } from '../types';
+import { RiskCategory, AppointmentStatus } from '../types';
 import { COLORS, SYMPTOMS_LIST, CHRONIC_CONDITIONS_LIST } from '../constants';
 
-interface PatientDashboardProps {
-  appointments: Appointment[];
-  onSubmitAppointment: (data: Partial<Appointment>) => void;
-  onLogout: () => void;
-  patientUser: User;
-}
-
-const PatientDashboard: React.FC<PatientDashboardProps> = ({ 
+const PatientDashboard = ({ 
   appointments, 
   onSubmitAppointment, 
   onLogout,
   patientUser
 }) => {
   const [isBooking, setIsBooking] = useState(false);
-  const [selectedSymptoms, setSelectedSymptoms] = useState<string[]>([]);
+  const [selectedSymptoms, setSelectedSymptoms] = useState([]);
   const [symptomsText, setSymptomsText] = useState('');
-  const [selectedConditions, setSelectedConditions] = useState<string[]>([]);
-  const [preferredWindow, setPreferredWindow] = useState<'MORNING' | 'EVENING'>('MORNING');
+  const [selectedConditions, setSelectedConditions] = useState([]);
+  const [preferredWindow, setPreferredWindow] = useState('MORNING');
   const [isEmergency, setIsEmergency] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const toggleSymptom = (s: string) => {
+  const toggleSymptom = (s) => {
     setSelectedSymptoms(prev => prev.includes(s) ? prev.filter(item => item !== s) : [...prev, s]);
   };
 
-  const toggleCondition = (c: string) => {
+  const toggleCondition = (c) => {
     setSelectedConditions(prev => prev.includes(c) ? prev.filter(item => item !== c) : [...prev, c]);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
     

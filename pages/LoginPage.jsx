@@ -1,16 +1,11 @@
 
 import React, { useState } from 'react';
-import { UserRole, User } from '../types';
+import { UserRole } from '../types';
 import { COLORS } from '../constants';
 
-interface LoginPageProps {
-  onLogin: (user: User) => void;
-  onBack: () => void;
-}
-
-const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onBack }) => {
+const LoginPage = ({ onLogin, onBack }) => {
   const [isRegister, setIsRegister] = useState(false);
-  const [role, setRole] = useState<UserRole>(UserRole.PATIENT);
+  const [role, setRole] = useState(UserRole.PATIENT);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -19,12 +14,12 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onBack }) => {
   });
   const [error, setError] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     setError('');
 
     const usersStr = localStorage.getItem('priorcare_users_db') || '[]';
-    const users: User[] = JSON.parse(usersStr);
+    const users = JSON.parse(usersStr);
 
     if (isRegister) {
       // Check if exists
@@ -33,7 +28,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onBack }) => {
         return;
       }
 
-      const newUser: User = {
+      const newUser = {
         id: Math.random().toString(36).substr(2, 9),
         name: formData.name,
         email: formData.email,
@@ -56,7 +51,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onBack }) => {
     }
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 

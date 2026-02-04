@@ -1,10 +1,8 @@
 
 import React, { useState, useMemo } from 'react';
 import { 
-  Appointment, 
   AppointmentStatus, 
-  RiskCategory, 
-  ClinicConfig 
+  RiskCategory 
 } from '../types';
 import { COLORS } from '../constants';
 import { 
@@ -22,17 +20,7 @@ import {
   Cell
 } from 'recharts';
 
-interface DoctorDashboardProps {
-  appointments: Appointment[];
-  onUpdateStatus: (id: string, status: AppointmentStatus) => void;
-  onLogout: () => void;
-  onReorder: (newOrder: Appointment[]) => void;
-  clinicConfig: ClinicConfig;
-  onUpdateClinic: (config: ClinicConfig) => void;
-  doctorName: string;
-}
-
-const DoctorDashboard: React.FC<DoctorDashboardProps> = ({ 
+const DoctorDashboard = ({ 
   appointments, 
   onUpdateStatus, 
   onLogout,
@@ -41,7 +29,7 @@ const DoctorDashboard: React.FC<DoctorDashboardProps> = ({
   onUpdateClinic,
   doctorName
 }) => {
-  const [activeTab, setActiveTab] = useState<'QUEUE' | 'ANALYTICS' | 'SETTINGS'>('QUEUE');
+  const [activeTab, setActiveTab] = useState('QUEUE');
   const [isEditingClinic, setIsEditingClinic] = useState(false);
 
   // AI Sorting Logic
